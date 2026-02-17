@@ -142,14 +142,14 @@ function pressEquals() {
 
 function pressBackspace() {
   if (justEvaluated) {
-    clear();
+    pressClear();
     return;
   }
   currentInput = currentInput.slice(0, -1);
   updateDisplay(currentInput || 'O');
 }
 
-function clear() {
+function pressClear() {
   currentInput = '';
   operator = null;
   operandA = null;
@@ -175,5 +175,5 @@ document.addEventListener('keydown', (e) => {
   if (['+', '-', '*', '/'].includes(e.key)) { pressOperator(e.key); return; }
   if (e.key === 'Enter' || e.key === '=') { pressEquals(); return; }
   if (e.key === 'Backspace') { pressBackspace(); return; }
-  if (e.key === 'Escape') { clear(); return; }
+  if (e.key === 'Escape') { pressClear(); return; }
 });

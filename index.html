@@ -4,44 +4,274 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Roman Numeral Calculator</title>
-  <link rel="stylesheet" href="style.css" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: #1a1a2e;
+      font-family: 'Georgia', serif;
+    }
+
+    .calculator {
+      background: #16213e;
+      border-radius: 16px;
+      padding: 24px;
+      width: 340px;
+      box-shadow: 0 20px 60px rgba(0,0,0,0.5), 0 0 0 1px rgba(255,255,255,0.05);
+    }
+
+    h1 {
+      color: #c9a84c;
+      font-size: 13px;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      text-align: center;
+      margin-bottom: 16px;
+      opacity: 0.8;
+    }
+
+    .display-box {
+      background: #0f3460;
+      border-radius: 10px;
+      padding: 16px 20px;
+      margin-bottom: 20px;
+      min-height: 90px;
+      display: flex;
+      flex-direction: column;
+      align-items: flex-end;
+      justify-content: flex-end;
+      border: 1px solid rgba(201,168,76,0.2);
+    }
+
+    #hist {
+      color: rgba(201,168,76,0.5);
+      font-size: 13px;
+      min-height: 18px;
+      letter-spacing: 1px;
+    }
+
+    #disp {
+      color: #c9a84c;
+      font-size: 32px;
+      letter-spacing: 2px;
+      word-break: break-all;
+      text-align: right;
+      line-height: 1.2;
+      margin-top: 4px;
+    }
+
+    .buttons {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 10px;
+    }
+
+    button {
+      background: #1a2a4a;
+      color: #e0e0e0;
+      border: 1px solid rgba(255,255,255,0.08);
+      border-radius: 10px;
+      padding: 16px 8px;
+      font-size: 16px;
+      font-family: 'Georgia', serif;
+      cursor: pointer;
+      transition: background 0.15s, transform 0.1s;
+      letter-spacing: 1px;
+    }
+    button:hover  { background: #243558; }
+    button:active { transform: scale(0.95); }
+
+    .numeral { color: #f0f0f0; font-weight: bold; }
+
+    .op {
+      background: #0f3460;
+      color: #c9a84c;
+      font-size: 20px;
+      border-color: rgba(201,168,76,0.2);
+    }
+    .op:hover { background: #143d72; }
+
+    .eq {
+      background: #c9a84c;
+      color: #16213e;
+      font-size: 20px;
+      font-weight: bold;
+      border-color: transparent;
+      grid-column: span 2;
+    }
+    .eq:hover { background: #d4b866; }
+
+    .clr { background: #3d1a1a; color: #e05555; border-color: rgba(224,85,85,0.2); }
+    .clr:hover { background: #4d2020; }
+
+    .bksp { background: #2a1a2e; color: #b06ec8; border-color: rgba(176,110,200,0.2); }
+    .bksp:hover { background: #3a2040; }
+
+    .hint {
+      color: rgba(201,168,76,0.35);
+      font-size: 11px;
+      text-align: center;
+      margin-top: 16px;
+      letter-spacing: 1px;
+    }
+  </style>
 </head>
 <body>
   <div class="calculator">
     <h1>Roman Numeral Calculator</h1>
-
     <div class="display-box">
-      <div id="history"></div>
-      <div id="display">O</div>
+      <div id="hist"></div>
+      <div id="disp">O</div>
     </div>
-
     <div class="buttons">
-      <!-- Row 1: operators + clear -->
-      <button class="clear"     onclick="pressClear()">C</button>
-      <button class="backspace" onclick="pressBackspace()">&#9003;</button>
-      <button class="operator"  onclick="pressOperator('*')">&#215;</button>
-      <button class="operator"  onclick="pressOperator('/')">&#247;</button>
+      <button class="clr"     onclick="calc.clear()">C</button>
+      <button class="bksp"    onclick="calc.backspace()">&#9003;</button>
+      <button class="op"      onclick="calc.op('*')">&#215;</button>
+      <button class="op"      onclick="calc.op('/')">&#247;</button>
 
-      <!-- Row 2: M, D, C, operator -->
-      <button class="numeral" onclick="appendNumeral('M')">M</button>
-      <button class="numeral" onclick="appendNumeral('D')">D</button>
-      <button class="numeral" onclick="appendNumeral('C')">C</button>
-      <button class="operator" onclick="pressOperator('-')">&#8722;</button>
+      <button class="numeral" onclick="calc.digit('M')">M</button>
+      <button class="numeral" onclick="calc.digit('D')">D</button>
+      <button class="numeral" onclick="calc.digit('C')">C</button>
+      <button class="op"      onclick="calc.op('-')">&#8722;</button>
 
-      <!-- Row 3: L, X, V, operator -->
-      <button class="numeral" onclick="appendNumeral('L')">L</button>
-      <button class="numeral" onclick="appendNumeral('X')">X</button>
-      <button class="numeral" onclick="appendNumeral('V')">V</button>
-      <button class="operator" onclick="pressOperator('+')">+</button>
+      <button class="numeral" onclick="calc.digit('L')">L</button>
+      <button class="numeral" onclick="calc.digit('X')">X</button>
+      <button class="numeral" onclick="calc.digit('V')">V</button>
+      <button class="op"      onclick="calc.op('+')">+</button>
 
-      <!-- Row 4: I + equals -->
-      <button class="numeral" onclick="appendNumeral('I')" style="grid-column: span 2;">I</button>
-      <button class="equals"  onclick="pressEquals()">=</button>
+      <button class="numeral" onclick="calc.digit('I')" style="grid-column:span 2">I</button>
+      <button class="eq"      onclick="calc.equals()">=</button>
     </div>
-
     <p class="hint">Keyboard: I V X L C D M &nbsp;|&nbsp; + - * / &nbsp;|&nbsp; Enter &nbsp;|&nbsp; Esc</p>
   </div>
 
-  <script src="calculator.js"></script>
+  <script>
+    const VALS = [
+      [1000,'M'],[900,'CM'],[500,'D'],[400,'CD'],
+      [100,'C'],[90,'XC'],[50,'L'],[40,'XL'],
+      [10,'X'],[9,'IX'],[5,'V'],[4,'IV'],[1,'I']
+    ];
+
+    function toRoman(n) {
+      if (!Number.isInteger(n) || n < 1 || n > 3999) return null;
+      let s = '';
+      for (const [v, r] of VALS) { while (n >= v) { s += r; n -= v; } }
+      return s;
+    }
+
+    function fromRoman(s) {
+      s = s.toUpperCase().trim();
+      if (!s) return null;
+      const map = {I:1,V:5,X:10,L:50,C:100,D:500,M:1000};
+      let n = 0;
+      for (let i = 0; i < s.length; i++) {
+        const cur = map[s[i]], nxt = map[s[i+1]];
+        if (!cur) return null;
+        n += (nxt && cur < nxt) ? -cur : cur;
+      }
+      return n > 0 ? n : null;
+    }
+
+    const dispEl = document.getElementById('disp');
+    const histEl = document.getElementById('hist');
+
+    const calc = {
+      input: '',
+      opVal: null,
+      numA: null,
+      done: false,
+
+      _show(top, sub) {
+        dispEl.textContent = top || 'O';
+        histEl.textContent = sub || '';
+      },
+
+      _err(msg) {
+        dispEl.textContent = msg;
+        histEl.textContent = '';
+        this.input = ''; this.opVal = null; this.numA = null; this.done = false;
+        setTimeout(() => this._show('O'), 2000);
+      },
+
+      digit(ch) {
+        if (this.done) { this.input = ''; this.done = false; }
+        this.input += ch;
+        this._show(this.input);
+      },
+
+      op(sym) {
+        if (!this.input && this.numA !== null) {
+          this.opVal = sym;
+          this._show(toRoman(this.numA), toRoman(this.numA) + ' ' + sym);
+          return;
+        }
+        const v = fromRoman(this.input);
+        if (v === null) { this._err('Invalid numeral'); return; }
+
+        if (this.numA !== null && this.opVal) {
+          const r = this._eval(this.numA, v, this.opVal);
+          if (r === null) return;
+          this.numA = r;
+          this._show(toRoman(r), toRoman(r) + ' ' + sym);
+        } else {
+          this.numA = v;
+          this._show(toRoman(v), toRoman(v) + ' ' + sym);
+        }
+        this.opVal = sym;
+        this.input = '';
+        this.done = false;
+      },
+
+      _eval(a, b, sym) {
+        let r;
+        if (sym === '+') r = a + b;
+        else if (sym === '-') r = a - b;
+        else if (sym === '*') r = a * b;
+        else if (sym === '/') {
+          if (b === 0) { this._err('Cannot divide by zero'); return null; }
+          r = Math.round(a / b);
+        }
+        if (!Number.isInteger(r) || r < 1 || r > 3999) {
+          this._err('Result out of range');
+          return null;
+        }
+        return r;
+      },
+
+      equals() {
+        if (!this.opVal || this.numA === null) return;
+        const b = fromRoman(this.input);
+        if (b === null) { this._err('Invalid numeral'); return; }
+        const r = this._eval(this.numA, b, this.opVal);
+        if (r === null) return;
+        histEl.textContent = toRoman(this.numA) + ' ' + this.opVal + ' ' + toRoman(b) + ' =';
+        dispEl.textContent = toRoman(r);
+        this.numA = r; this.input = ''; this.opVal = null; this.done = true;
+      },
+
+      backspace() {
+        if (this.done) { this.clear(); return; }
+        this.input = this.input.slice(0, -1);
+        this._show(this.input || 'O');
+      },
+
+      clear() {
+        this.input = ''; this.opVal = null; this.numA = null; this.done = false;
+        this._show('O', '');
+      }
+    };
+
+    document.addEventListener('keydown', e => {
+      if ('IVXLCDM'.includes(e.key.toUpperCase())) { calc.digit(e.key.toUpperCase()); return; }
+      if ('+-*/'.includes(e.key))  { calc.op(e.key); return; }
+      if (e.key === 'Enter' || e.key === '=') { calc.equals(); return; }
+      if (e.key === 'Backspace')   { calc.backspace(); return; }
+      if (e.key === 'Escape')      { calc.clear(); return; }
+    });
+  </script>
 </body>
 </html>

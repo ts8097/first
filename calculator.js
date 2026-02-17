@@ -159,7 +159,7 @@ function pressClear() {
 
 function showError(msg) {
   display.textContent = msg;
-  history.textContent = '';
+  historyEl.textContent = '';
   currentInput = '';
   operator = null;
   operandA = null;

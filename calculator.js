@@ -41,11 +41,11 @@ let operandA = null;     // integer value of first operand
 let justEvaluated = false;
 
 const display = document.getElementById('display');
-const history = document.getElementById('history');
+const historyEl = document.getElementById('history');
 
 function updateDisplay(text, subtitle = '') {
-  display.textContent = text || 'O';  // O looks like 0 in roman context
-  history.textContent = subtitle;
+  display.textContent = text || 'O';
+  historyEl.textContent = subtitle;
 }
 
 function appendNumeral(numeral) {
@@ -131,7 +131,7 @@ function pressEquals() {
   if (result === null) return;
 
   const resultRoman = toRoman(result);
-  history.textContent = `${aRoman} ${operator} ${bRoman} =`;
+  historyEl.textContent = `${aRoman} ${operator} ${bRoman} =`;
   display.textContent = resultRoman;
 
   operandA = result;

@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Roman Numeral Calculator</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div class="calculator">
+    <h1>Roman Numeral Calculator</h1>
+
+    <div class="display-box">
+      <div id="history"></div>
+      <div id="display">O</div>
+    </div>
+
+    <div class="buttons">
+      <!-- Row 1: operators + clear -->
+      <button class="clear"     onclick="clear()">C</button>
+      <button class="backspace" onclick="pressBackspace()">&#9003;</button>
+      <button class="operator"  onclick="pressOperator('*')">&#215;</button>
+      <button class="operator"  onclick="pressOperator('/')">&#247;</button>
+
+      <!-- Row 2: M, D, C, operator -->
+      <button class="numeral" onclick="appendNumeral('M')">M</button>
+      <button class="numeral" onclick="appendNumeral('D')">D</button>
+      <button class="numeral" onclick="appendNumeral('C')">C</button>
+      <button class="operator" onclick="pressOperator('-')">&#8722;</button>
+
+      <!-- Row 3: L, X, V, operator -->
+      <button class="numeral" onclick="appendNumeral('L')">L</button>
+      <button class="numeral" onclick="appendNumeral('X')">X</button>
+      <button class="numeral" onclick="appendNumeral('V')">V</button>
+      <button class="operator" onclick="pressOperator('+')">+</button>
+
+      <!-- Row 4: I + equals -->
+      <button class="numeral" onclick="appendNumeral('I')" style="grid-column: span 2;">I</button>
+      <button class="equals"  onclick="pressEquals()">=</button>
+    </div>
+
+    <p class="hint">Keyboard: I V X L C D M &nbsp;|&nbsp; + - * / &nbsp;|&nbsp; Enter &nbsp;|&nbsp; Esc</p>
+  </div>
+
+  <script src="calculator.js"></script>
+</body>
+</html>

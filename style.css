@@ -1,0 +1,144 @@
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #1a1a2e;
+  font-family: 'Georgia', serif;
+}
+
+.calculator {
+  background: #16213e;
+  border-radius: 16px;
+  padding: 24px;
+  width: 340px;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5), 0 0 0 1px rgba(255,255,255,0.05);
+}
+
+h1 {
+  color: #c9a84c;
+  font-size: 13px;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  text-align: center;
+  margin-bottom: 16px;
+  opacity: 0.8;
+}
+
+.display-box {
+  background: #0f3460;
+  border-radius: 10px;
+  padding: 16px 20px;
+  margin-bottom: 20px;
+  min-height: 90px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  justify-content: flex-end;
+  border: 1px solid rgba(201, 168, 76, 0.2);
+}
+
+#history {
+  color: rgba(201, 168, 76, 0.5);
+  font-size: 13px;
+  min-height: 18px;
+  letter-spacing: 1px;
+}
+
+#display {
+  color: #c9a84c;
+  font-size: 32px;
+  letter-spacing: 2px;
+  word-break: break-all;
+  text-align: right;
+  line-height: 1.2;
+  margin-top: 4px;
+}
+
+.buttons {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 10px;
+}
+
+button {
+  background: #1a2a4a;
+  color: #e0e0e0;
+  border: 1px solid rgba(255,255,255,0.08);
+  border-radius: 10px;
+  padding: 16px 8px;
+  font-size: 16px;
+  font-family: 'Georgia', serif;
+  cursor: pointer;
+  transition: background 0.15s, transform 0.1s, box-shadow 0.15s;
+  letter-spacing: 1px;
+}
+
+button:hover {
+  background: #243558;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+}
+
+button:active {
+  transform: scale(0.95);
+  background: #1e2e48;
+}
+
+button.numeral {
+  color: #f0f0f0;
+  font-weight: bold;
+}
+
+button.operator {
+  background: #0f3460;
+  color: #c9a84c;
+  font-size: 20px;
+  border-color: rgba(201, 168, 76, 0.2);
+}
+
+button.operator:hover {
+  background: #143d72;
+}
+
+button.equals {
+  background: #c9a84c;
+  color: #16213e;
+  font-size: 20px;
+  font-weight: bold;
+  border-color: transparent;
+  grid-column: span 2;
+}
+
+button.equals:hover {
+  background: #d4b866;
+}
+
+button.clear {
+  background: #3d1a1a;
+  color: #e05555;
+  border-color: rgba(224, 85, 85, 0.2);
+}
+
+button.clear:hover {
+  background: #4d2020;
+}
+
+button.backspace {
+  background: #2a1a2e;
+  color: #b06ec8;
+  border-color: rgba(176, 110, 200, 0.2);
+}
+
+button.backspace:hover {
+  background: #3a2040;
+}
+
+.hint {
+  color: rgba(201, 168, 76, 0.35);
+  font-size: 11px;
+  text-align: center;
+  margin-top: 16px;
+  letter-spacing: 1px;
+}
